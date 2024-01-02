@@ -2,53 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailPeriksa;
+use App\Models\Dokter;
+use App\Models\Jadwal;
+use App\Models\Obat;
+use App\Models\Pasien;
+use App\Models\Periksa;
+use App\Models\Poli;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('dashboard');
+        return view('index');
     }
-
-    public function jadwalperiksa()
-    {
-        return view('jadwal-periksa');
-    }
-
-    public function memeriksapasien()
-    {
-        return view('memeriksa-pasien');
-    }
-
-    public function riwayatpasien()
-    {
-        return view('riwayat-pasien');
-    }
-
-    public function profil()
-    {
-        return view('profil');
-    }
-
     public function dokter()
     {
-        return view('dokter');
+        $jadwals = Jadwal::count();
+        $periksas = Periksa::count();
+        $detailperiksas = DetailPeriksa::count();
+        return view('dokter.dashboard', compact('jadwals', 'periksas', 'detailperiksas'));
     }
 
-    public function pasien()
+    public function admin()
     {
-        return view('pasien');
+        $dokters = Dokter::count();
+        $pasiens = Pasien::count();
+        $polis = Poli::count();
+        $obats = Obat::count();
+        return view('admin.dashboard', compact('dokters', 'pasiens', 'polis', 'obats'));
     }
-
-    public function poli()
-    {
-        return view('poli');
-    }
-
-    public function obat()
-    {
-        return view('obat');
-    }
-
 }

@@ -10,28 +10,66 @@ use Illuminate\Auth\Events\Registered;
 
 class LoginController extends Controller
 {
-    public function index()
+    public function indexAdmin()
     {
-        return view('login.index');
+        return view('admin.login.index');
+    }
+    public function indexDokter()
+    {
+        return view('dokter.login.index');
     }
 
-    public function authenticate(Request $request)
+    public function authenticateAdmin(Request $request)
     {
         $credentials = $request->validate([
             'username' => 'required',
             'password' => 'required'
         ]);
 
-        if(Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
 
-            return redirect()->intended('/');
+            if ($user->role === 'admin') {
+                $request->session()->regenerate();
+
+                return redirect()->intended('/admin');
+            } else {
+                // Logout the user if they have the wrong role
+                Auth::logout();
+
+                return back()->with('loginError', 'Invalid role for admin login!');
+            }
         }
 
-        return back()->with('loginError', 'login gagal!');
+        return back()->with('loginError', 'Login gagal!');
     }
 
-    public function logout(Request $request)
+    public function authenticateDokter(Request $request)
+    {
+        $credentials = $request->validate([
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            if ($user->role === 'dokter') {
+                $request->session()->regenerate();
+
+                return redirect()->intended('/dokter');
+            } else {
+                // Logout the user if they have the wrong role
+                Auth::logout();
+
+                return back()->with('loginError', 'Invalid role for dokter login!');
+            }
+        }
+
+        return back()->with('loginError', 'Login gagal!');
+    }
+
+    public function logoutAdmin(Request $request)
     {
         Auth::logout();
 
@@ -39,7 +77,18 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('admin.login');
+    }
+
+    public function logoutDokter(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('dokter.login');
     }
 
     public function signup()
