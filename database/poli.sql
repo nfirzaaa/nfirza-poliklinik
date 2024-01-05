@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2024 at 03:34 PM
+-- Generation Time: Jan 05, 2024 at 12:22 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.1
 
@@ -42,7 +42,8 @@ CREATE TABLE `daftar_polis` (
 --
 
 INSERT INTO `daftar_polis` (`id`, `id_pasien`, `id_jadwal`, `keluhan`, `no_antrian`, `created_at`, `updated_at`) VALUES
-(2, 2, 1, 'cabut gigi', 1, '2024-01-02 07:32:59', '2024-01-02 07:32:59');
+(1, 1, 1, 'Sakit Kepala', 1, '2024-01-05 03:45:52', '2024-01-05 03:45:52'),
+(2, 2, 2, 'Cabut gigi berlubang', 2, '2024-01-05 03:46:39', '2024-01-05 03:46:39');
 
 -- --------------------------------------------------------
 
@@ -57,6 +58,13 @@ CREATE TABLE `detail_periksas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `detail_periksas`
+--
+
+INSERT INTO `detail_periksas` (`id`, `id_periksa`, `id_obat`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, '2024-01-05 03:54:03', '2024-01-05 03:54:03');
 
 -- --------------------------------------------------------
 
@@ -79,10 +87,9 @@ CREATE TABLE `dokters` (
 --
 
 INSERT INTO `dokters` (`id`, `nama`, `alamat`, `no_hp`, `id_poli`, `created_at`, `updated_at`) VALUES
-(1, 'dr. firza', 'Jl. poncowolo', '085654323457', 1, NULL, '2024-01-02 03:22:01'),
-(2, 'dr. kiki', 'Jl. indraprasta', '086445334243', 2, NULL, '2024-01-02 03:22:11'),
-(3, 'dr. nunu', 'Jl. semarang barat', '087756564648', 3, NULL, '2024-01-02 03:22:21'),
-(4, 'dr.sasa', 'ungaran', '08977654343', 4, '2024-01-02 03:21:48', '2024-01-02 03:22:30');
+(1, 'Dr. firza', 'Jl. poncowolo', '085654323457', 1, NULL, NULL),
+(2, 'Dr. kiki', 'Jl. indraprasta', '086445334243', 2, NULL, NULL),
+(3, 'Dr. nunu', 'semarang barat', '087756564648', 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -124,7 +131,7 @@ INSERT INTO `jadwals` (`id`, `id_dokter`, `hari`, `jam_mulai`, `jam_selesai`, `c
 (1, 1, 'Senin', '08:00:00', '12:00:00', NULL, NULL),
 (2, 2, 'Selasa', '08:00:00', '12:00:00', NULL, NULL),
 (3, 3, 'Rabu', '08:00:00', '12:00:00', NULL, NULL),
-(5, 1, 'Rabu', '10:00:00', '13:00:00', '2024-01-02 03:17:54', '2024-01-02 03:17:54');
+(4, 1, 'Kamis', '08:00:00', '12:00:00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -177,9 +184,9 @@ CREATE TABLE `obats` (
 --
 
 INSERT INTO `obats` (`id`, `nama_obat`, `kemasan`, `harga`, `created_at`, `updated_at`) VALUES
-(1, 'Neozep', 'Strip', 3000, NULL, '2024-01-02 03:23:19'),
-(2, 'Ibu Profen', 'Strip', 30000, NULL, '2024-01-02 03:23:41'),
-(3, 'antimo', 'Strip', 10000, NULL, '2024-01-02 03:24:04');
+(1, 'Neozep', 'Strip', 3000, NULL, NULL),
+(2, 'Ibu Profen', 'Strip', 30000, NULL, NULL),
+(3, 'Antimo', 'Strip', 10000, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -203,7 +210,8 @@ CREATE TABLE `pasiens` (
 --
 
 INSERT INTO `pasiens` (`id`, `nama`, `alamat`, `no_ktp`, `no_hp`, `no_rm`, `created_at`, `updated_at`) VALUES
-(2, 'firza', 'semarang', '3332834277422342', '086543678888', '2401-001', '2024-01-02 07:31:33', '2024-01-02 07:31:33');
+(1, 'syekal', 'petompon', '274019274092471847', '089237128371', '2401-001', '2024-01-05 03:40:01', '2024-01-05 03:40:01'),
+(2, 'indra', 'menoreh', '333239293819317', '086751365133', '2401-002', '2024-01-05 03:46:26', '2024-01-05 03:46:26');
 
 -- --------------------------------------------------------
 
@@ -232,6 +240,13 @@ CREATE TABLE `periksas` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `catatan` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `periksas`
+--
+
+INSERT INTO `periksas` (`id`, `id_daftar_poli`, `tgl_periksa`, `biaya`, `created_at`, `updated_at`, `catatan`) VALUES
+(1, 1, '2024-05-01', 180000, '2024-01-05 03:54:03', '2024-01-05 03:54:03', 'Istirahat yang cukup, minum obat 3x sehari');
 
 -- --------------------------------------------------------
 
@@ -300,8 +315,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nama_pengguna`, `username`, `password`, `no_hp`, `no_ktp`, `alamat`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'firza', '$2y$10$ePG/3RuXBin4at5EQ6ADYOgXpGDc5/rRZBMwLB/6zUKYEcgzMN4y6', '081234567890', '1234567890123456', 'Jl. Raya No. 1', 'admin', NULL, NULL, NULL),
-(2, 'dokter', 'dr.firza', '$2y$10$LlirRqwVpqiEF2lOoQp4XefnNGg9BLeO2Mefc9dGhgUG2TLIOSrUS', '081234567890', '1234567890123456', 'Jl. poncowolo', 'dokter', NULL, NULL, '2024-01-02 03:19:28');
+(1, 'admin', 'firza', '$2y$10$fRcf7nTgULgVkRpfxxSNF.tNnAWANUNcGm70vsTC9YdkDuSJ0m..O', '081234567890', '1234567890123456', 'Jl. Raya No. 1', 'admin', NULL, NULL, NULL),
+(2, 'dokter', 'dr.firza', '$2y$10$VxFQLWwxZv4Y.KE8aXWY4.aLIVfBQV90bvtAy/dOwW98DsFgJcxGO', '081234567890', '1234567890123456', 'Jl. Raya No. 1', 'dokter', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -411,13 +426,13 @@ ALTER TABLE `daftar_polis`
 -- AUTO_INCREMENT for table `detail_periksas`
 --
 ALTER TABLE `detail_periksas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `dokters`
 --
 ALTER TABLE `dokters`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -429,7 +444,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `jadwals`
 --
 ALTER TABLE `jadwals`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -453,7 +468,7 @@ ALTER TABLE `pasiens`
 -- AUTO_INCREMENT for table `periksas`
 --
 ALTER TABLE `periksas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
