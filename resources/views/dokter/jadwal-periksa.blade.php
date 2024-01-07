@@ -31,6 +31,7 @@
                                 <th>Hari</th>
                                 <th>Jam Mulai</th>
                                 <th>Jam Selesai</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -42,6 +43,7 @@
                                     <td>{{ $jadwal->hari }}</td>
                                     <td>{{ $jadwal->jam_mulai }}</td>
                                     <td>{{ $jadwal->jam_selesai }}</td>
+                                    <td>{{ $jadwal->status == 1 ? 'Aktif' : 'Tidak Aktif' }}</td>
                                     <td>
                                         <button class="btn btn-primary" data-toggle="modal"
                                             data-target="#editModal{{ $jadwal->id }}">
@@ -84,8 +86,8 @@
                                                 <option value="Senin">Senin</option>
                                                 <option value="Selasa">Selasa</option>
                                                 <option value="Rabu">Rabu</option>
-                                                <option value="Rabu">Kamis</option>
-                                                <option value="Rabu">Jumat</option>
+                                                <option value="Kamis">Kamis</option>
+                                                <option value="Jumat">Jumat</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -97,6 +99,13 @@
                                             <label for="jam_selesai">Jam Selesai</label>
                                             <input type="time" class="form-control" id="jam_selesai" name="jam_selesai"
                                                 required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="status">Status</label>
+                                            <select class="form-control" id="status" name="status" required>
+                                                <option value="1">Aktif</option>
+                                                <option value="0">Tidak Aktif</option>
+                                            </select>
                                         </div>
                                 </div>
                                 <div class="modal-footer">
@@ -159,6 +168,13 @@
                                                 <label for="jam_selesai">Jam Selesai</label>
                                                 <input type="time" class="form-control" id="jam_selesai"
                                                     name="jam_selesai" value="{{ $jadwal->jam_selesai }}" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="status">Status</label>
+                                                <select class="form-control" id="status" name="status" required>
+                                                    <option value="1">Aktif</option>
+                                                    <option value="0">Tidak Aktif</option>
+                                                </select>
                                             </div>
                                     </div>
                                     <div class="modal-footer">

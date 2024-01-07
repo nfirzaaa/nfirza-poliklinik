@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2024 at 03:34 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.1
+-- Generation Time: Dec 27, 2023 at 07:48 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,256 +24,119 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `daftar_polis`
+-- Table structure for table `daftar_poli`
 --
 
-CREATE TABLE `daftar_polis` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `id_pasien` bigint(20) UNSIGNED NOT NULL,
-  `id_jadwal` bigint(20) UNSIGNED NOT NULL,
-  `keluhan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_antrian` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `daftar_polis`
---
-
-INSERT INTO `daftar_polis` (`id`, `id_pasien`, `id_jadwal`, `keluhan`, `no_antrian`, `created_at`, `updated_at`) VALUES
-(2, 2, 1, 'cabut gigi', 1, '2024-01-02 07:32:59', '2024-01-02 07:32:59');
+CREATE TABLE `daftar_poli` (
+  `id` int(11) NOT NULL,
+  `id_pasien` int(11) NOT NULL,
+  `id_jadwal` int(11) NOT NULL,
+  `keluhan` text NOT NULL,
+  `no_antrian` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_periksas`
+-- Table structure for table `detail_periksa`
 --
 
-CREATE TABLE `detail_periksas` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `id_periksa` bigint(20) UNSIGNED NOT NULL,
-  `id_obat` bigint(20) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `detail_periksa` (
+  `id` int(11) NOT NULL,
+  `id_periksa` int(11) NOT NULL,
+  `id_obat` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dokters`
+-- Table structure for table `dokter`
 --
 
-CREATE TABLE `dokters` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `id_poli` bigint(20) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `dokters`
---
-
-INSERT INTO `dokters` (`id`, `nama`, `alamat`, `no_hp`, `id_poli`, `created_at`, `updated_at`) VALUES
-(1, 'dr. firza', 'Jl. poncowolo', '085654323457', 1, NULL, '2024-01-02 03:22:01'),
-(2, 'dr. kiki', 'Jl. indraprasta', '086445334243', 2, NULL, '2024-01-02 03:22:11'),
-(3, 'dr. nunu', 'Jl. semarang barat', '087756564648', 3, NULL, '2024-01-02 03:22:21'),
-(4, 'dr.sasa', 'ungaran', '08977654343', 4, '2024-01-02 03:21:48', '2024-01-02 03:22:30');
+CREATE TABLE `dokter` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `alamat` varchar(255) NOT NULL,
+  `no_hp` varchar(50) NOT NULL,
+  `id_poli` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `failed_jobs`
+-- Table structure for table `jadwal_periksa`
 --
 
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `jadwals`
---
-
-CREATE TABLE `jadwals` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `id_dokter` bigint(20) UNSIGNED NOT NULL,
-  `hari` enum('Senin','Selasa','Rabu','Kamis','Jumat','Sabtu') COLLATE utf8mb4_unicode_ci NOT NULL,
+CREATE TABLE `jadwal_periksa` (
+  `id` int(11) NOT NULL,
+  `id_dokter` int(11) NOT NULL,
+  `hari` enum('Senin','Selasa','Rabu','Kamis','Jumat','Sabtu') NOT NULL,
   `jam_mulai` time NOT NULL,
-  `jam_selesai` time NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `jadwals`
---
-
-INSERT INTO `jadwals` (`id`, `id_dokter`, `hari`, `jam_mulai`, `jam_selesai`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Senin', '08:00:00', '12:00:00', NULL, NULL),
-(2, 2, 'Selasa', '08:00:00', '12:00:00', NULL, NULL),
-(3, 3, 'Rabu', '08:00:00', '12:00:00', NULL, NULL),
-(5, 1, 'Rabu', '10:00:00', '13:00:00', '2024-01-02 03:17:54', '2024-01-02 03:17:54');
+  `jam_selesai` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
+-- Table structure for table `obat`
 --
 
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `obat` (
+  `id` int(11) NOT NULL,
+  `nama_obat` varchar(50) NOT NULL,
+  `kemasan` varchar(35) NOT NULL,
+  `harga` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `migrations`
+-- Dumping data for table `obat`
 --
 
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_resets_table', 1),
-(3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(5, '2023_12_28_133559_create_polis_table', 1),
-(6, '2023_12_28_134237_create_pasiens_table', 1),
-(7, '2023_12_28_135151_create_dokters_table', 1),
-(8, '2023_12_28_135315_create_obats_table', 1),
-(9, '2023_12_28_140538_create_jadwals_table', 1),
-(10, '2023_12_28_141509_create_daftar_polis_table', 1),
-(11, '2023_12_28_141609_create_periksas_table', 1),
-(12, '2023_12_28_141638_create_detail_periksas_table', 1),
-(13, '2023_12_29_161545_add_catatan_to_periksas', 1);
+INSERT INTO `obat` (`id`, `nama_obat`, `kemasan`, `harga`) VALUES
+(1, 'Paramex', 'Strip', 5500),
+(2, 'Paracetamol', 'Strip', 20000),
+(3, 'Citirizen', 'strip', 5000);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `obats`
+-- Table structure for table `pasien`
 --
 
-CREATE TABLE `obats` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `nama_obat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `kemasan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `harga` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `obats`
---
-
-INSERT INTO `obats` (`id`, `nama_obat`, `kemasan`, `harga`, `created_at`, `updated_at`) VALUES
-(1, 'Neozep', 'Strip', 3000, NULL, '2024-01-02 03:23:19'),
-(2, 'Ibu Profen', 'Strip', 30000, NULL, '2024-01-02 03:23:41'),
-(3, 'antimo', 'Strip', 10000, NULL, '2024-01-02 03:24:04');
+CREATE TABLE `pasien` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `alamat` varchar(255) NOT NULL,
+  `no_ktp` varchar(255) NOT NULL,
+  `no_hp` varchar(50) NOT NULL,
+  `no_rm` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pasiens`
+-- Table structure for table `periksa`
 --
 
-CREATE TABLE `pasiens` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_ktp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_rm` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `pasiens`
---
-
-INSERT INTO `pasiens` (`id`, `nama`, `alamat`, `no_ktp`, `no_hp`, `no_rm`, `created_at`, `updated_at`) VALUES
-(2, 'firza', 'semarang', '3332834277422342', '086543678888', '2401-001', '2024-01-02 07:31:33', '2024-01-02 07:31:33');
+CREATE TABLE `periksa` (
+  `id` int(11) NOT NULL,
+  `id_daftar_poli` int(11) NOT NULL,
+  `tgl_periksa` datetime NOT NULL,
+  `catatan` text NOT NULL,
+  `biaya_periksa` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `password_resets`
+-- Table structure for table `poli`
 --
 
-CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `periksas`
---
-
-CREATE TABLE `periksas` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `id_daftar_poli` bigint(20) UNSIGNED NOT NULL,
-  `tgl_periksa` date NOT NULL,
-  `biaya` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `catatan` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `personal_access_tokens`
---
-
-CREATE TABLE `personal_access_tokens` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_used_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `polis`
---
-
-CREATE TABLE `polis` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `nama_poli` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `keterangan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `polis`
---
-
-INSERT INTO `polis` (`id`, `nama_poli`, `keterangan`, `created_at`, `updated_at`) VALUES
-(1, 'Umum', 'Poli Umum', NULL, NULL),
-(2, 'Gigi', 'Poli Gigi', NULL, NULL),
-(3, 'Anak', 'Poli Anak', NULL, NULL),
-(4, 'Kandungan', 'Poli Kandungan', NULL, NULL);
+CREATE TABLE `poli` (
+  `id` int(11) NOT NULL,
+  `nama_poli` varchar(25) NOT NULL,
+  `keterangan` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -282,232 +145,184 @@ INSERT INTO `polis` (`id`, `nama_poli`, `keterangan`, `created_at`, `updated_at`
 --
 
 CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `nama_pengguna` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_hp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_ktp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `id` int(11) NOT NULL,
+  `nama_lengkap` varchar(100) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `no_hp` varchar(255) NOT NULL,
+  `no_ktp` varchar(255) NOT NULL,
+  `alamat` text NOT NULL,
+  `created_at` date NOT NULL,
+  `updated_at` date NOT NULL,
+  `role` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `nama_pengguna`, `username`, `password`, `no_hp`, `no_ktp`, `alamat`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'firza', '$2y$10$ePG/3RuXBin4at5EQ6ADYOgXpGDc5/rRZBMwLB/6zUKYEcgzMN4y6', '081234567890', '1234567890123456', 'Jl. Raya No. 1', 'admin', NULL, NULL, NULL),
-(2, 'dokter', 'dr.firza', '$2y$10$LlirRqwVpqiEF2lOoQp4XefnNGg9BLeO2Mefc9dGhgUG2TLIOSrUS', '081234567890', '1234567890123456', 'Jl. poncowolo', 'dokter', NULL, NULL, '2024-01-02 03:19:28');
+INSERT INTO `users` (`id`, `nama_lengkap`, `username`, `password`, `no_hp`, `no_ktp`, `alamat`, `created_at`, `updated_at`, `role`) VALUES
+(8, 'admin', 'admin', '$2y$10$PMbvG6B5OS.hPuzpIjLQGupnY/M1njinz/kpnyOfhGclxADa2LVeW', '123', '123', 'admin', '2023-12-27', '2023-12-27', 'admin'),
+(9, 'dokter', 'dokter', '$2y$10$9ivMzhT1jqpL8uUgjRDS/eymbU/b62h4Ku5fEvHmvYzS7cgMzrji6', '123', '243', 'dokter', '2023-12-27', '2023-12-27', 'dokter');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `daftar_polis`
+-- Indexes for table `daftar_poli`
 --
-ALTER TABLE `daftar_polis`
+ALTER TABLE `daftar_poli`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `daftar_polis_id_pasien_foreign` (`id_pasien`),
-  ADD KEY `daftar_polis_id_jadwal_foreign` (`id_jadwal`);
+  ADD KEY `fk_daftar_poli_pasien` (`id_pasien`),
+  ADD KEY `fk_daftar_poli_jadwal_periksa` (`id_jadwal`);
 
 --
--- Indexes for table `detail_periksas`
+-- Indexes for table `detail_periksa`
 --
-ALTER TABLE `detail_periksas`
+ALTER TABLE `detail_periksa`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `detail_periksas_id_periksa_foreign` (`id_periksa`),
-  ADD KEY `detail_periksas_id_obat_foreign` (`id_obat`);
+  ADD KEY `fk_periksa_detail_periksa` (`id_periksa`),
+  ADD KEY `fk_obat_detail_periksa` (`id_obat`);
 
 --
--- Indexes for table `dokters`
+-- Indexes for table `dokter`
 --
-ALTER TABLE `dokters`
+ALTER TABLE `dokter`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `dokters_id_poli_foreign` (`id_poli`);
+  ADD KEY `fk_dokter_poli` (`id_poli`);
 
 --
--- Indexes for table `failed_jobs`
+-- Indexes for table `jadwal_periksa`
 --
-ALTER TABLE `failed_jobs`
+ALTER TABLE `jadwal_periksa`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+  ADD KEY `fk_jadwal_periksa_dokter` (`id_dokter`);
 
 --
--- Indexes for table `jadwals`
+-- Indexes for table `obat`
 --
-ALTER TABLE `jadwals`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `jadwals_id_dokter_foreign` (`id_dokter`);
-
---
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
+ALTER TABLE `obat`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `obats`
+-- Indexes for table `pasien`
 --
-ALTER TABLE `obats`
+ALTER TABLE `pasien`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `pasiens`
+-- Indexes for table `periksa`
 --
-ALTER TABLE `pasiens`
+ALTER TABLE `periksa`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `pasiens_no_ktp_unique` (`no_ktp`);
+  ADD KEY `fk_periksa_daftar_poli` (`id_daftar_poli`);
 
 --
--- Indexes for table `password_resets`
+-- Indexes for table `poli`
 --
-ALTER TABLE `password_resets`
-  ADD KEY `password_resets_email_index` (`email`);
-
---
--- Indexes for table `periksas`
---
-ALTER TABLE `periksas`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `periksas_id_daftar_poli_foreign` (`id_daftar_poli`);
-
---
--- Indexes for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
-  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
-
---
--- Indexes for table `polis`
---
-ALTER TABLE `polis`
+ALTER TABLE `poli`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_username_unique` (`username`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `daftar_polis`
+-- AUTO_INCREMENT for table `daftar_poli`
 --
-ALTER TABLE `daftar_polis`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `daftar_poli`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `detail_periksas`
+-- AUTO_INCREMENT for table `detail_periksa`
 --
-ALTER TABLE `detail_periksas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `detail_periksa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `dokters`
+-- AUTO_INCREMENT for table `dokter`
 --
-ALTER TABLE `dokters`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `dokter`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `failed_jobs`
+-- AUTO_INCREMENT for table `jadwal_periksa`
 --
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `jadwal_periksa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `jadwals`
+-- AUTO_INCREMENT for table `obat`
 --
-ALTER TABLE `jadwals`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `obat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `migrations`
+-- AUTO_INCREMENT for table `pasien`
 --
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+ALTER TABLE `pasien`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `obats`
+-- AUTO_INCREMENT for table `periksa`
 --
-ALTER TABLE `obats`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `periksa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `pasiens`
+-- AUTO_INCREMENT for table `poli`
 --
-ALTER TABLE `pasiens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `periksas`
---
-ALTER TABLE `periksas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `polis`
---
-ALTER TABLE `polis`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `poli`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `daftar_polis`
+-- Constraints for table `daftar_poli`
 --
-ALTER TABLE `daftar_polis`
-  ADD CONSTRAINT `daftar_polis_id_jadwal_foreign` FOREIGN KEY (`id_jadwal`) REFERENCES `jadwals` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `daftar_polis_id_pasien_foreign` FOREIGN KEY (`id_pasien`) REFERENCES `pasiens` (`id`) ON DELETE CASCADE;
+ALTER TABLE `daftar_poli`
+  ADD CONSTRAINT `fk_daftar_poli_jadwal_periksa` FOREIGN KEY (`id_jadwal`) REFERENCES `jadwal_periksa` (`id`),
+  ADD CONSTRAINT `fk_daftar_poli_pasien` FOREIGN KEY (`id_pasien`) REFERENCES `pasien` (`id`);
 
 --
--- Constraints for table `detail_periksas`
+-- Constraints for table `detail_periksa`
 --
-ALTER TABLE `detail_periksas`
-  ADD CONSTRAINT `detail_periksas_id_obat_foreign` FOREIGN KEY (`id_obat`) REFERENCES `obats` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `detail_periksas_id_periksa_foreign` FOREIGN KEY (`id_periksa`) REFERENCES `periksas` (`id`) ON DELETE CASCADE;
+ALTER TABLE `detail_periksa`
+  ADD CONSTRAINT `fk_obat_detail_periksa` FOREIGN KEY (`id_obat`) REFERENCES `obat` (`id`),
+  ADD CONSTRAINT `fk_periksa_detail_periksa` FOREIGN KEY (`id_periksa`) REFERENCES `periksa` (`id`);
 
 --
--- Constraints for table `dokters`
+-- Constraints for table `dokter`
 --
-ALTER TABLE `dokters`
-  ADD CONSTRAINT `dokters_id_poli_foreign` FOREIGN KEY (`id_poli`) REFERENCES `polis` (`id`) ON DELETE CASCADE;
+ALTER TABLE `dokter`
+  ADD CONSTRAINT `fk_dokter_poli` FOREIGN KEY (`id_poli`) REFERENCES `poli` (`id`);
 
 --
--- Constraints for table `jadwals`
+-- Constraints for table `jadwal_periksa`
 --
-ALTER TABLE `jadwals`
-  ADD CONSTRAINT `jadwals_id_dokter_foreign` FOREIGN KEY (`id_dokter`) REFERENCES `dokters` (`id`) ON DELETE CASCADE;
+ALTER TABLE `jadwal_periksa`
+  ADD CONSTRAINT `fk_jadwal_periksa_dokter` FOREIGN KEY (`id_dokter`) REFERENCES `dokter` (`id`);
 
 --
--- Constraints for table `periksas`
+-- Constraints for table `periksa`
 --
-ALTER TABLE `periksas`
-  ADD CONSTRAINT `periksas_id_daftar_poli_foreign` FOREIGN KEY (`id_daftar_poli`) REFERENCES `daftar_polis` (`id`) ON DELETE CASCADE;
+ALTER TABLE `periksa`
+  ADD CONSTRAINT `fk_periksa_daftar_poli` FOREIGN KEY (`id_daftar_poli`) REFERENCES `daftar_poli` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
